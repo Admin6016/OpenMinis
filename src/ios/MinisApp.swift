@@ -224,6 +224,12 @@ struct MinisApp: App {
     var body: some Scene {
         WindowGroup {
             ZStack {
+                // [identity-gate] Main UI stays unmounted until the passcode
+                // resolves, so ChatStore.shared cannot be created before the
+                // per-identity storage root is pinned.
+                if IdentityGate.shared.resolved == nil {
+                    IdentityGateView()
+                } else {
                 ContentView()
                     .overlay(alignment: .top) {
                         BackgroundInterruptionBanner()
@@ -460,7 +466,10 @@ struct MinisApp: App {
                     // feature flag is on (see SyncV2Bootstrap); v1 stays
                     // paused while v2 is active. When v2 is off, v1 boots
                     // exactly as before.
-                    if #available(iOS 17.0, *) {
+                    // [identity-gate] Vault identity: no iCloud sync, sessions stay device-local.
+                    if ChatPaths.isVault {
+                        print("[identity-gate] vault identity — iCloud sync disabled")
+                    } else if #available(iOS 17.0, *) {
                         Task { @MainActor in
                             await Self.startSyncEngines()
                         }

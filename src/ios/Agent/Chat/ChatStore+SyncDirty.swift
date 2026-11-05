@@ -1029,7 +1029,7 @@ extension ChatStore {
     func scanAndMarkSessionFiles(sessionId: String, priority: Int = 0) -> Int {
         let fm = FileManager.default
         let library = fm.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let sessionDir = library.appendingPathComponent("MinisChat/minis/\(sessionId)")
+        let sessionDir = ChatPaths.mediaBase.appendingPathComponent("\(sessionId)")
         guard fm.fileExists(atPath: sessionDir.path) else { return 0 }
         // Standardize to resolve /private/var vs /var symlink differences
         let sessionDirStd = sessionDir.standardizedFileURL.path

@@ -47,8 +47,9 @@ extension ContentView {
     private nonisolated static func computeDeleteInfo(for ids: Set<String>, totalSessions: Int) -> DeleteInfo {
         let fm = FileManager.default
         let libBase = fm.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let minisBase = libBase.appendingPathComponent("MinisChat/minis", isDirectory: true)
-        let dbPath = libBase.appendingPathComponent("MinisChat/minis.db")
+        // [identity-gate] respect per-identity storage root
+        let minisBase = ChatPaths.mediaBase
+        let dbPath = ChatPaths.chatDB
 
         var totalSize: Int64 = 0
 

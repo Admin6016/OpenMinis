@@ -188,7 +188,7 @@ extension ChatStore {
     /// = "sessionId:relativePath"). Returns the count.
     private func scanAndMarkSessionFilesForResurrect(sessionId: String) -> Int {
         let library = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let sessionDir = library.appendingPathComponent("MinisChat/minis/\(sessionId)")
+        let sessionDir = ChatPaths.mediaBase.appendingPathComponent("\(sessionId)")
         guard let enumerator = FileManager.default.enumerator(
             at: sessionDir, includingPropertiesForKeys: [.isRegularFileKey],
             options: [.skipsHiddenFiles]

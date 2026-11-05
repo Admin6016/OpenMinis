@@ -356,7 +356,7 @@ class StorageManagementViewModel: ObservableObject {
 
     private var minisBaseURL: URL {
         fm.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("MinisChat/minis", isDirectory: true)
+            ChatPaths.mediaBase // [identity-gate]
     }
 
     /// Allocated bytes under one session directory, counted exactly as the
@@ -369,7 +369,7 @@ class StorageManagementViewModel: ObservableObject {
     /// minis.db with its -wal / -shm siblings, as the full scan buckets it.
     private func databaseSize() -> Int64 {
         let dir = fm.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("MinisChat", isDirectory: true)
+            ChatPaths.base // [identity-gate]
         let files = (try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: Self.sizeKeys)) ?? []
         return files.filter { $0.lastPathComponent.hasPrefix("minis.db") }
             .reduce(0) { $0 + allocatedSize(try? $1.resourceValues(forKeys: Set(Self.sizeKeys))) }
@@ -1001,7 +1001,7 @@ struct SessionStorageDetailView: View {
 
     private var minisURL: URL {
         let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        return lib.appendingPathComponent("MinisChat/minis/\(session.id)", isDirectory: true)
+        return ChatPaths.mediaBase.appendingPathComponent("\(session.id)", isDirectory: true) // [identity-gate]
     }
 
     private var totalFileSize: Int64 { currentMinisSize }

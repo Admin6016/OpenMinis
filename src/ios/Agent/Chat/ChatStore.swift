@@ -177,8 +177,11 @@ actor ChatStore {
     ///      can query before it), but data backfills are deferred to
     ///      `runDeferredMigrations()`, called off the init path.
     init() {
-        let libraryURL = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let baseURL = libraryURL.appendingPathComponent("MinisChat", isDirectory: true)
+        // [identity-gate] Per-identity root: Library/MinisChat (main) or
+        // Library/MinisChat_vault (hidden identity). ChatPaths.activate() has
+        // already run by the time the gate unmounts itself, before the UI can
+        // touch ChatStore.shared.
+        let baseURL = ChatPaths.base
         self.dbURL = baseURL.appendingPathComponent("minis.db")
         self.minisBaseURL = baseURL.appendingPathComponent("minis", isDirectory: true)
 

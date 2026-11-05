@@ -438,7 +438,7 @@ extension ChatStore {
     /// Estimated size of all session files (attachments, offloads, workspace, browser).
     func estimateFilesSize() -> Int64 {
         let library = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let minisBase = library.appendingPathComponent("MinisChat/minis")
+        let minisBase = ChatPaths.mediaBase // [identity-gate]
         return directorySize(minisBase)
     }
 

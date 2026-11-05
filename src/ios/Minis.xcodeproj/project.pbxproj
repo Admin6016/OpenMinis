@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+	OMGA0001 /* IdentityGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = OMGR0001 /* IdentityGate.swift */; };
+	OMGA0002 /* ChatPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = OMGR0002 /* ChatPaths.swift */; };
+	OMGA0003 /* IdentityGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OMGR0003 /* IdentityGateView.swift */; };
 		21FED4B7BB6F6D9476C9992E /* VoiceProvider+System.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88993FC8E3F0199C6638F664 /* VoiceProvider+System.swift */; };
 		241D530017827D7F0EB604DE /* VoiceProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2941B643B8A2F048A2B154E /* VoiceProviderFactory.swift */; };
 		2A4FD49F872431D703328384 /* VoiceOutputPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424510790AF3FB2452D3CCE3 /* VoiceOutputPlayer.swift */; };
@@ -722,6 +725,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+	OMGR0001 /* IdentityGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityGate.swift; sourceTree = "<group>"; };
+	OMGR0002 /* ChatPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatPaths.swift; sourceTree = "<group>"; };
+	OMGR0003 /* IdentityGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityGateView.swift; sourceTree = "<group>"; };
 		0ED149397BEA7E0408C92688 /* GroupVoiceModelsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GroupVoiceModelsView.swift; sourceTree = "<group>"; };
 		0F5379380323FA8C6477708C /* GroupSlotPicker.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GroupSlotPicker.swift; sourceTree = "<group>"; };
 		16FF3462D09402F14B610CD6 /* VoiceWaveformView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = VoiceWaveformView.swift; sourceTree = "<group>"; };
@@ -2095,6 +2101,9 @@
 				E5E0000A2 /* ExternalFileImporter.swift */,
 				E5E000017 /* SharedContainerStore.swift */,
 				AADDA9E02F6ECCF400B66649 /* ThumbnailCache.swift */,
+				OMGR0001 /* IdentityGate.swift */,
+				OMGR0002 /* ChatPaths.swift */,
+				OMGR0003 /* IdentityGateView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -3120,6 +3129,9 @@
 				AA26CCBC2F324FE400AECF2D /* FileBrowserView.swift in Sources */,
 				AA26CCBE2F31080100AECF2D /* RootfsManager.swift in Sources */,
 				E51000001 /* MinisApp.swift in Sources */,
+				OMGA0001 /* IdentityGate.swift in Sources */,
+				OMGA0002 /* ChatPaths.swift in Sources */,
+				OMGA0003 /* IdentityGateView.swift in Sources */,
 				E5FPBH02 /* FileProviderBootHealth.swift in Sources */,
 				E5QA0001 /* QuickActionRouter.swift in Sources */,
 				E5QA0003 /* QuickActionWorkflow.swift in Sources */,

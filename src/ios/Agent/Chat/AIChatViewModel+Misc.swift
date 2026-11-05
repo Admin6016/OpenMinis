@@ -153,7 +153,7 @@ extension AIChatViewModel {
     /// iOS persistent base for all minis data (Library/MinisChat/minis/).
     nonisolated static var minisPersistentBase: URL {
         let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        return lib.appendingPathComponent("MinisChat/minis", isDirectory: true)
+        return ChatPaths.mediaBase // [identity-gate] per-identity media root
     }
 
     /// Persistent storage directory for a specific session's offloads.

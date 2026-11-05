@@ -3343,7 +3343,7 @@ final class DebugJSONRPC: @unchecked Sendable {
         // except the rootfs meta.db which lives inside the iSH rootfs.
         let fm = FileManager.default
         let library = fm.urls(for: .libraryDirectory, in: .userDomainMask).first!
-        let chatBase = library.appendingPathComponent("MinisChat", isDirectory: true)
+        let chatBase = ChatPaths.base // [identity-gate]
         let rootfs = RootfsManager.shared.rootfsPath
         return [
             ("minis", chatBase.appendingPathComponent("minis.db")),
