@@ -267,9 +267,12 @@ class StorageManagementViewModel: ObservableObject {
             }
 
             // ---- Library ------------------------------------------------------
+            // [identity-gate] classify against the ACTIVE identity's root, so the
+            // vault's sessions are not lumped into "other".
+            let chatRoot = ChatPaths.base.lastPathComponent
             for (rel, size) in self.entries(under: libraryURL) {
                 total += size
-                if rel.hasPrefix("MinisChat/minis/") {
+                if rel.hasPrefix(chatRoot + "/minis/") {
                     // Library/MinisChat/minis/<sessionId>/…
                     let parts = rel.split(separator: "/", maxSplits: 3, omittingEmptySubsequences: false)
                     guard parts.count >= 3 else { continue }
@@ -287,7 +290,7 @@ class StorageManagementViewModel: ObservableObject {
                         // loose files: in use, not orphaned, never cleaned.
                         sharedData += size
                     }
-                } else if rel.hasPrefix("MinisChat/minis.db") {
+                } else if rel.hasPrefix(chatRoot + "/minis.db") {
                     // Covers minis.db plus its -wal / -shm siblings, which are as
                     // much "the database" as the main file is and can be large
                     // mid-transaction.
@@ -354,10 +357,7 @@ class StorageManagementViewModel: ObservableObject {
 
     // MARK: - Session actions ([T-storage-session-cache])
 
-    private var minisBaseURL: URL {
-        fm.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            ChatPaths.mediaBase // [identity-gate]
-    }
+    private var minisBaseURL: URL { ChatPaths.mediaBase } // [identity-gate]
 
     /// Allocated bytes under one session directory, counted exactly as the
     /// full scan counts them, so an incremental update and a rescan agree.
@@ -368,8 +368,7 @@ class StorageManagementViewModel: ObservableObject {
 
     /// minis.db with its -wal / -shm siblings, as the full scan buckets it.
     private func databaseSize() -> Int64 {
-        let dir = fm.urls(for: .libraryDirectory, in: .userDomainMask)[0]
-            ChatPaths.base // [identity-gate]
+        let dir = ChatPaths.base // [identity-gate]
         let files = (try? fm.contentsOfDirectory(at: dir, includingPropertiesForKeys: Self.sizeKeys)) ?? []
         return files.filter { $0.lastPathComponent.hasPrefix("minis.db") }
             .reduce(0) { $0 + allocatedSize(try? $1.resourceValues(forKeys: Set(Self.sizeKeys))) }
