@@ -204,8 +204,28 @@ struct MinisApp: App {
             //
             // Ordered before the zombie sweep so the schema is fully settled
             // before that query runs; both are idempotent and actor-serialised.
+            //
+            // [identity-gate] Wait for the passcode gate to pick the storage
+            // root first — ChatStore.shared is a lazy singleton, so whoever
+            // touches it first pins Library/MinisChat vs MinisChat_vault.
+            var waited = 0
+            while await MainActor.run(body: { IdentityGate.shared.resolved == nil }) {
+                if waited >= 900 { return }   // 90 s: gate dismissed / killed
+                try? await Task.sleep(nanoseconds: 100_000_000)
+                waited += 1
+            }
             await ChatStore.shared.runDeferredMigrations()
             await ChatStore.shared.sweepZombieChildSessions()
+        }
+
+        // [identity-gate] A background launch (BGTask, intent, widget refresh)
+        // never shows the passcode screen, so fall back to the main identity
+        // instead of letting those paths read an unresolved store.
+        Task.detached(priority: .userInitiated) {
+            try? await Task.sleep(nanoseconds: 2_000_000_000)
+            let isBackground = await MainActor.run { UIApplication.shared.applicationState == .background }
+            guard isBackground else { return }
+            await MainActor.run { IdentityGate.shared.resolveForBackgroundLaunch() }
         }
     }
 
@@ -240,6 +260,7 @@ struct MinisApp: App {
                 // copy). It lays itself out full-screen (bottom-trailing capsule +
                 // tap-to-dismiss catcher), so no positioning wrapper here.
                 SpeechPlayerControl()
+                }   // end [identity-gate] else
                 AppLockOverlay()
             }
                 .onReceive(SessionLockStore.shared.$appIsLocked) { locked in
