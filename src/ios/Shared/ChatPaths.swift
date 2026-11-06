@@ -17,8 +17,8 @@ import Foundation
 enum ChatPaths {
     /// Storage root for the CURRENT identity. Defaults to the standard
     /// `MinisChat` so test targets and previews behave like upstream.
-    private static let _lock = NSLock()
-    private static var _base: URL = {
+    nonisolated(unsafe) private static let _lock = NSLock()
+    nonisolated(unsafe) private static var _base: URL = {
         let lib = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first!
         return lib.appendingPathComponent("MinisChat", isDirectory: true)
     }()
