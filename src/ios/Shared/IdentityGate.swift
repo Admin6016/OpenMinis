@@ -55,6 +55,15 @@ final class IdentityGate: ObservableObject {
         return true
     }
 
+    /// Background launches (BGTask / intent / widget refresh) never show the
+    /// passcode screen. They belong to the main identity, so resolve to it
+    /// rather than leaving the store unresolved.
+    func resolveForBackgroundLaunch() {
+        guard resolved == nil else { return }
+        resolved = .main
+        ChatPaths.activate(.main)
+    }
+
     static func digest(of code: String) -> String {
         let d = SHA256.hash(data: Data((salt + code).utf8))
         return d.map { String(format: "%02x", $0) }.joined()
