@@ -37,8 +37,8 @@ final class IdentityGate: ObservableObject {
 
     // Salted SHA-256 digests of the passcodes.
     private static let digests: [String: IdentityKind] = [
-        "61e4a021f6cdcfa8dfcc108d4d652ce93c73f1236d2485bf22405769af12fb19": .main,
-        "eaa1f6dc634040f21832fb7000cb7e9441f87abe21e9962d6a8aa83febd7bed8": .vault,
+        "61e4a021f6cdcfa8dfcc108d4d652ce93c73f1236d2485bf22405769af12fb19": .vault,   // 2810
+        "eaa1f6dc634040f21832fb7000cb7e9441f87abe21e9962d6a8aa83febd7bed8": .main,   // 112233
     ]
 
     private init() {}
