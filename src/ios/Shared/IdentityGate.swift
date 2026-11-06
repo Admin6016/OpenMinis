@@ -51,6 +51,10 @@ final class IdentityGate: ObservableObject {
             failedAttempt += 1
             return false
         }
+        // Pin the storage root BEFORE publishing `resolved`: the launch-time
+        // migration task creates ChatStore.shared as soon as it sees a
+        // resolution, and that singleton bakes in the directory.
+        ChatPaths.activate(kind)
         resolved = kind
         return true
     }
